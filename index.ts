@@ -159,23 +159,33 @@ function create2DCanvas() {
 function drawMap(g: CanvasRenderingContext2D) {
   for (let y = 0; y < map.length; y++) {
     for (let x = 0; x < map[y].length; x++) {
-      if (map[y][x] === Tile.FLUX)
-        g.fillStyle = "#ccffcc";
-      else if (map[y][x] === Tile.UNBREAKABLE)
-        g.fillStyle = "#999999";
-      else if (map[y][x] === Tile.STONE || map[y][x] === Tile.FALLING_STONE)
-        g.fillStyle = "#0000cc";
-      else if (map[y][x] === Tile.BOX || map[y][x] === Tile.FALLING_BOX)
-        g.fillStyle = "#8b4513";
-      else if (map[y][x] === Tile.KEY1 || map[y][x] === Tile.LOCK1)
-        g.fillStyle = "#ffcc00";
-      else if (map[y][x] === Tile.KEY2 || map[y][x] === Tile.LOCK2)
-        g.fillStyle = "#00ccff";
+      let tileColor = tileColorGet(x, y);
+      g.fillStyle = tileColor;
 
       if (map[y][x] !== Tile.AIR && map[y][x] !== Tile.PLAYER)
         g.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
     }
   }
+}
+
+function tileColorGet(x: number, y: number) {
+  if (map[y][x] === Tile.FLUX)
+    return "#ccffcc";
+
+  if (map[y][x] === Tile.UNBREAKABLE)
+    return "#999999";
+
+  if (map[y][x] === Tile.STONE || map[y][x] === Tile.FALLING_STONE)
+    return "#0000cc";
+
+  if (map[y][x] === Tile.BOX || map[y][x] === Tile.FALLING_BOX)
+    return "#8b4513";
+
+  if (map[y][x] === Tile.KEY1 || map[y][x] === Tile.LOCK1)
+    return "#ffcc00";
+
+  if (map[y][x] === Tile.KEY2 || map[y][x] === Tile.LOCK2)
+    return "#00ccff";
 }
 
 function drawPlayer(g: CanvasRenderingContext2D) {
