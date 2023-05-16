@@ -266,6 +266,10 @@ let map: Tile2[][];
 
 let inputs: Input[] = [];
 
+function assertExhausted(x: never): never {
+  throw new Error("Unexpected object: " + x);
+}
+
 function createTileObject(tile: RawTile) {
   switch (tile) {
     case RawTile.AIR: return new AirTile();
@@ -280,6 +284,7 @@ function createTileObject(tile: RawTile) {
     case RawTile.LOCK1: return new Lock1Tile();
     case RawTile.KEY2: return new Key2Tile();
     case RawTile.LOCK2: return new Lock2Tile();
+    default: assertExhausted(tile);
   }
 }
 
