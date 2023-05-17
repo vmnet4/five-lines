@@ -371,7 +371,7 @@ function moveVertical(dy: number) {
 
 function update() {
   processInputs();
-  processBlocks();
+  updateBlocks();
 }
 
 function processInputs() {
@@ -382,15 +382,15 @@ function processInputs() {
 }
 
 
-function processBlocks() {
+function updateBlocks() {
   for (let y = map.length - 1; y >= 0; y--) {
     for (let x = 0; x < map[y].length; x++) {
-      processTile(x, y);
+      updateTile(x, y);
     }
   }
 }
 
-function processTile(x: number, y: number) {
+function updateTile(x: number, y: number) {
   if ((map[y][x].isStone() || map[y][x].isFallingStone())
     && map[y + 1][x].isAir()) {
     map[y + 1][x] = new FallingStoneTile();
