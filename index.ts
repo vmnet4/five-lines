@@ -29,7 +29,6 @@ interface Tile2 {
   isLock1(): boolean;
   isKey2(): boolean;
   isLock2(): boolean;
-  isEdible(): boolean;
   moveHorizontal(dx: number): void;
 }
 
@@ -48,23 +47,9 @@ class AirTile implements Tile2 {
   isLock1(): boolean { return false; }
   isKey2(): boolean { return false; }
   isLock2(): boolean { return false; }
-  isEdible(): boolean { return true; }
   moveHorizontal(dx: number) {
-    if (map[playery][playerx + dx].isEdible()) {
-      moveToTile(playerx + dx, playery);
-    } else if ((map[playery][playerx + dx].isStone()
-      || map[playery][playerx + dx].isBox())
-      && map[playery][playerx + dx + dx].isAir()
-      && !map[playery + 1][playerx + dx].isAir()) {
-      map[playery][playerx + dx + dx] = map[playery][playerx + dx];
-      moveToTile(playerx + dx, playery);
-    } else if (map[playery][playerx + dx].isKey1()) {
-      removeLock1();
-      moveToTile(playerx + dx, playery);
-    } else if (map[playery][playerx + dx].isKey2()) {
-      removeLock2();
-      moveToTile(playerx + dx, playery);
-    }
+    moveToTile(playerx + dx, playery);
+
   }
 }
 
@@ -88,21 +73,7 @@ class FluxTile implements Tile2 {
   isLock2(): boolean { return false; }
   isEdible(): boolean { return true; }
   moveHorizontal(dx: number) {
-    if (map[playery][playerx + dx].isEdible()) {
-      moveToTile(playerx + dx, playery);
-    } else if ((map[playery][playerx + dx].isStone()
-      || map[playery][playerx + dx].isBox())
-      && map[playery][playerx + dx + dx].isAir()
-      && !map[playery + 1][playerx + dx].isAir()) {
-      map[playery][playerx + dx + dx] = map[playery][playerx + dx];
-      moveToTile(playerx + dx, playery);
-    } else if (map[playery][playerx + dx].isKey1()) {
-      removeLock1();
-      moveToTile(playerx + dx, playery);
-    } else if (map[playery][playerx + dx].isKey2()) {
-      removeLock2();
-      moveToTile(playerx + dx, playery);
-    }
+    moveToTile(playerx + dx, playery);
   }
 }
 
@@ -124,11 +95,8 @@ class UnbreakableTile implements Tile2 {
   isLock1(): boolean { return false; }
   isKey2(): boolean { return false; }
   isLock2(): boolean { return false; }
-  isEdible(): boolean { return false; }
   moveHorizontal(dx: number) {
-    if (map[playery][playerx + dx].isEdible()) {
-      moveToTile(playerx + dx, playery);
-    } else if ((map[playery][playerx + dx].isStone()
+    if ((map[playery][playerx + dx].isStone()
       || map[playery][playerx + dx].isBox())
       && map[playery][playerx + dx + dx].isAir()
       && !map[playery + 1][playerx + dx].isAir()) {
@@ -159,11 +127,8 @@ class PlayerTile implements Tile2 {
   isLock1(): boolean { return false; }
   isKey2(): boolean { return false; }
   isLock2(): boolean { return false; }
-  isEdible(): boolean { return false; }
   moveHorizontal(dx: number) {
-    if (map[playery][playerx + dx].isEdible()) {
-      moveToTile(playerx + dx, playery);
-    } else if ((map[playery][playerx + dx].isStone()
+    if ((map[playery][playerx + dx].isStone()
       || map[playery][playerx + dx].isBox())
       && map[playery][playerx + dx + dx].isAir()
       && !map[playery + 1][playerx + dx].isAir()) {
@@ -197,11 +162,8 @@ class StoneTile implements Tile2 {
   isLock1(): boolean { return false; }
   isKey2(): boolean { return false; }
   isLock2(): boolean { return false; }
-  isEdible(): boolean { return false; }
   moveHorizontal(dx: number) {
-    if (map[playery][playerx + dx].isEdible()) {
-      moveToTile(playerx + dx, playery);
-    } else if ((map[playery][playerx + dx].isStone()
+    if ((map[playery][playerx + dx].isStone()
       || map[playery][playerx + dx].isBox())
       && map[playery][playerx + dx + dx].isAir()
       && !map[playery + 1][playerx + dx].isAir()) {
@@ -235,11 +197,8 @@ class FallingStoneTile implements Tile2 {
   isLock1(): boolean { return false; }
   isKey2(): boolean { return false; }
   isLock2(): boolean { return false; }
-  isEdible(): boolean { return false; }
   moveHorizontal(dx: number) {
-    if (map[playery][playerx + dx].isEdible()) {
-      moveToTile(playerx + dx, playery);
-    } else if ((map[playery][playerx + dx].isStone()
+    if ((map[playery][playerx + dx].isStone()
       || map[playery][playerx + dx].isBox())
       && map[playery][playerx + dx + dx].isAir()
       && !map[playery + 1][playerx + dx].isAir()) {
@@ -273,11 +232,8 @@ class BoxTile implements Tile2 {
   isLock1(): boolean { return false; }
   isKey2(): boolean { return false; }
   isLock2(): boolean { return false; }
-  isEdible(): boolean { return false; }
   moveHorizontal(dx: number) {
-    if (map[playery][playerx + dx].isEdible()) {
-      moveToTile(playerx + dx, playery);
-    } else if ((map[playery][playerx + dx].isStone()
+    if ((map[playery][playerx + dx].isStone()
       || map[playery][playerx + dx].isBox())
       && map[playery][playerx + dx + dx].isAir()
       && !map[playery + 1][playerx + dx].isAir()) {
@@ -311,11 +267,8 @@ class FallingBoxTile implements Tile2 {
   isLock1(): boolean { return false; }
   isKey2(): boolean { return false; }
   isLock2(): boolean { return false; }
-  isEdible(): boolean { return false; }
   moveHorizontal(dx: number) {
-    if (map[playery][playerx + dx].isEdible()) {
-      moveToTile(playerx + dx, playery);
-    } else if ((map[playery][playerx + dx].isStone()
+    if ((map[playery][playerx + dx].isStone()
       || map[playery][playerx + dx].isBox())
       && map[playery][playerx + dx + dx].isAir()
       && !map[playery + 1][playerx + dx].isAir()) {
@@ -349,11 +302,8 @@ class Key1Tile implements Tile2 {
   isLock1(): boolean { return false; }
   isKey2(): boolean { return false; }
   isLock2(): boolean { return false; }
-  isEdible(): boolean { return false; }
   moveHorizontal(dx: number) {
-    if (map[playery][playerx + dx].isEdible()) {
-      moveToTile(playerx + dx, playery);
-    } else if ((map[playery][playerx + dx].isStone()
+    if ((map[playery][playerx + dx].isStone()
       || map[playery][playerx + dx].isBox())
       && map[playery][playerx + dx + dx].isAir()
       && !map[playery + 1][playerx + dx].isAir()) {
@@ -387,11 +337,8 @@ class Lock1Tile implements Tile2 {
   isLock1(): boolean { return true; }
   isKey2(): boolean { return false; }
   isLock2(): boolean { return false; }
-  isEdible(): boolean { return false; }
   moveHorizontal(dx: number) {
-    if (map[playery][playerx + dx].isEdible()) {
-      moveToTile(playerx + dx, playery);
-    } else if ((map[playery][playerx + dx].isStone()
+    if ((map[playery][playerx + dx].isStone()
       || map[playery][playerx + dx].isBox())
       && map[playery][playerx + dx + dx].isAir()
       && !map[playery + 1][playerx + dx].isAir()) {
@@ -425,11 +372,8 @@ class Key2Tile implements Tile2 {
   isLock1(): boolean { return false; }
   isKey2(): boolean { return true; }
   isLock2(): boolean { return false; }
-  isEdible(): boolean { return false; }
   moveHorizontal(dx: number) {
-    if (map[playery][playerx + dx].isEdible()) {
-      moveToTile(playerx + dx, playery);
-    } else if ((map[playery][playerx + dx].isStone()
+    if ((map[playery][playerx + dx].isStone()
       || map[playery][playerx + dx].isBox())
       && map[playery][playerx + dx + dx].isAir()
       && !map[playery + 1][playerx + dx].isAir()) {
@@ -463,11 +407,8 @@ class Lock2Tile implements Tile2 {
   isLock1(): boolean { return false; }
   isKey2(): boolean { return false; }
   isLock2(): boolean { return true; }
-  isEdible(): boolean { return false; }
   moveHorizontal(dx: number) {
-    if (map[playery][playerx + dx].isEdible()) {
-      moveToTile(playerx + dx, playery);
-    } else if ((map[playery][playerx + dx].isStone()
+    if ((map[playery][playerx + dx].isStone()
       || map[playery][playerx + dx].isBox())
       && map[playery][playerx + dx + dx].isAir()
       && !map[playery + 1][playerx + dx].isAir()) {
