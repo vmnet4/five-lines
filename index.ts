@@ -14,10 +14,21 @@ enum RawTile {
   KEY2, LOCK2
 }
 
-enum FallingState {
-  FALLING,
-  RESTING
+interface FallingState {
+  isFalling(): boolean;
+  isResting(): boolean;
 }
+
+class Falling implements FallingState {
+  isFalling(): boolean { return true; }
+  isResting(): boolean { return false; }
+}
+
+class Resting implements FallingState {
+  isFalling(): boolean { return false; }
+  isResting(): boolean { return true; }
+}
+
 
 interface Tile2 {
   colorGet(): string;
@@ -124,7 +135,7 @@ class StoneTile implements Tile2 {
   }
   isAir(): boolean { return false; }
   isStone(): boolean { return true; }
-  isFallingStone(): boolean { return this.falling === FallingState.FALLING; }
+  isFallingStone(): boolean { return this.falling.isFalling(); }
   isBox(): boolean { return false; }
   isFallingBox(): boolean { return false; }
   isLock1(): boolean { return false; }
@@ -334,8 +345,8 @@ function createTileObject(tile: RawTile) {
     case RawTile.FLUX: return new FluxTile();
     case RawTile.UNBREAKABLE: return new UnbreakableTile();
     case RawTile.PLAYER: return new PlayerTile();
-    case RawTile.STONE: return new StoneTile(FallingState.RESTING);
-    case RawTile.FALLING_STONE: return new StoneTile(FallingState.FALLING);
+    case RawTile.STONE: return new StoneTile(new Resting());
+    case RawTile.FALLING_STONE: return new StoneTile(new Falling());
     case RawTile.BOX: return new BoxTile();
     case RawTile.FALLING_BOX: return new FallingBoxTile();
     case RawTile.KEY1: return new Key1Tile();
@@ -414,13 +425,13 @@ function updateBlocks() {
 
 function updateTile(x: number, y: number) {
   if (map[y][x].isStony() && map[y + 1][x].isAir()) {
-    map[y + 1][x] = new StoneTile(FallingState.FALLING);
+    map[y + 1][x] = new StoneTile(new Falling());
     map[y][x] = new AirTile();
   } else if (map[y][x].isBoxy() && map[y + 1][x].isAir()) {
     map[y + 1][x] = new FallingBoxTile();
     map[y][x] = new AirTile();
   } else if (map[y][x].isFallingStone()) {
-    map[y][x] = new StoneTile(FallingState.RESTING);
+    map[y][x] = new StoneTile(new Resting());
   } else if (map[y][x].isFallingBox()) {
     map[y][x] = new BoxTile();
   }
