@@ -43,11 +43,11 @@ class FallStrategy {
   }
   update(tile: Tile, x: number, y: number) {
     if (map[y + 1][x].isAir()) {
-      tile.drop();
+      this.falling = new Falling();
       map[y + 1][x] = tile;
       map[y][x] = new AirTile();
     } else if (this.falling.isFalling()) {
-      map[y][x].rest();
+      this.falling = new Resting();
     }
   }
 
@@ -62,8 +62,6 @@ interface Tile {
   isLock2(): boolean;
   moveHorizontal(dx: number): void;
   moveVertical(dy: number): void;
-  drop(): void;
-  rest(): void;
   update(x: number, y: number): void;
 }
 
@@ -79,8 +77,6 @@ class AirTile implements Tile {
   moveVertical(dy: number): void {
     moveToTile(playerx, playery + dy);
   }
-  drop() { }
-  rest() { }
   update(x: number, y: number) { }
 }
 
@@ -99,8 +95,6 @@ class FluxTile implements Tile {
   moveVertical(dy: number): void {
     moveToTile(playerx, playery + dy);
   }
-  drop() { }
-  rest() { }
   update(x: number, y: number) { }
 }
 
@@ -115,8 +109,6 @@ class UnbreakableTile implements Tile {
   isLock2(): boolean { return false; }
   moveHorizontal(dx: number) { }
   moveVertical(dy: number): void { }
-  drop() { }
-  rest() { }
   update(x: number, y: number) { }
 }
 
@@ -128,8 +120,6 @@ class PlayerTile implements Tile {
   isLock2(): boolean { return false; }
   moveHorizontal(dx: number) { }
   moveVertical(dy: number): void { }
-  drop() { }
-  rest() { }
   update(x: number, y: number) { }
 }
 
@@ -150,8 +140,6 @@ class StoneTile implements Tile {
     this.fallStrategy.getFalling().moveHorizontal(dx);
   }
   moveVertical(dy: number): void { }
-  drop() { this.fallStrategy = new FallStrategy(new Falling()); }
-  rest() { this.fallStrategy = new FallStrategy(new Resting()); }
   update(x: number, y: number) {
     this.fallStrategy.update(this, x, y);
   }
@@ -173,15 +161,13 @@ class BoxTile implements Tile {
     this.falling.moveHorizontal(dx);
   }
   moveVertical(dy: number): void { }
-  drop() { this.falling = new Falling(); }
-  rest() { this.falling = new Resting(); }
   update(x: number, y: number) {
     if (map[y + 1][x].isAir()) {
-      this.drop();
+      this.falling = new Falling();
       map[y + 1][x] = this;
       map[y][x] = new AirTile();
     } else if (this.falling.isFalling()) {
-      map[y][x].rest();
+      this.falling = new Resting()
     }
   }
 }
@@ -203,8 +189,6 @@ class Key1Tile implements Tile {
     removeLock1();
     moveToTile(playerx, playery + dy);
   }
-  drop() { }
-  rest() { }
   update(x: number, y: number) { }
 }
 
@@ -219,8 +203,6 @@ class Lock1Tile implements Tile {
   isLock2(): boolean { return false; }
   moveHorizontal(dx: number) { }
   moveVertical(dy: number): void { }
-  drop() { }
-  rest() { }
   update(x: number, y: number) { }
 }
 
@@ -241,8 +223,6 @@ class Key2Tile implements Tile {
     removeLock2();
     moveToTile(playerx, playery + dy);
   }
-  drop() { }
-  rest() { }
   update(x: number, y: number) { }
 }
 
@@ -257,8 +237,6 @@ class Lock2Tile implements Tile {
   isLock2(): boolean { return true; }
   moveHorizontal(dx: number) { }
   moveVertical(dy: number): void { }
-  drop() { }
-  rest() { }
   update(x: number, y: number) { }
 }
 
