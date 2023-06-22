@@ -36,7 +36,7 @@ class Resting implements FallingState {
   }
 }
 
-interface Tile2 {
+interface Tile {
   colorGet(): string;
   draw(g: CanvasRenderingContext2D, x: number, y: number): void;
   isAir(): boolean;
@@ -52,7 +52,7 @@ interface Tile2 {
   isBoxy(): boolean;
 }
 
-class AirTile implements Tile2 {
+class AirTile implements Tile {
   colorGet(): string { return ""; }
   draw(g: CanvasRenderingContext2D, x: number, y: number) { }
   isAir(): boolean { return true; }
@@ -72,7 +72,7 @@ class AirTile implements Tile2 {
   isBoxy(): boolean { return false; }
 }
 
-class FluxTile implements Tile2 {
+class FluxTile implements Tile {
   colorGet(): string { return "#ccffcc"; }
   draw(g: CanvasRenderingContext2D, x: number, y: number) {
     g.fillStyle = this.colorGet();
@@ -95,7 +95,7 @@ class FluxTile implements Tile2 {
   isBoxy(): boolean { return false; }
 }
 
-class UnbreakableTile implements Tile2 {
+class UnbreakableTile implements Tile {
   colorGet(): string { return "#999999"; }
   draw(g: CanvasRenderingContext2D, x: number, y: number) {
     g.fillStyle = this.colorGet();
@@ -114,7 +114,7 @@ class UnbreakableTile implements Tile2 {
   isBoxy(): boolean { return false; }
 }
 
-class PlayerTile implements Tile2 {
+class PlayerTile implements Tile {
   colorGet(): string { return ""; }
   draw(g: CanvasRenderingContext2D, x: number, y: number) { }
   isAir(): boolean { return false; }
@@ -130,7 +130,7 @@ class PlayerTile implements Tile2 {
   isBoxy(): boolean { return false; }
 }
 
-class StoneTile implements Tile2 {
+class StoneTile implements Tile {
   constructor(private falling: FallingState) {
     this.falling = falling;
   }
@@ -154,7 +154,7 @@ class StoneTile implements Tile2 {
   isBoxy(): boolean { return false; }
 }
 
-class BoxTile implements Tile2 {
+class BoxTile implements Tile {
   constructor(private falling: FallingState) {
     this.falling = falling;
   }
@@ -178,7 +178,7 @@ class BoxTile implements Tile2 {
   isBoxy(): boolean { return true; }
 }
 
-class Key1Tile implements Tile2 {
+class Key1Tile implements Tile {
   colorGet(): string { return "#ffcc00"; }
   draw(g: CanvasRenderingContext2D, x: number, y: number) {
     g.fillStyle = this.colorGet();
@@ -203,7 +203,7 @@ class Key1Tile implements Tile2 {
   isBoxy(): boolean { return false; }
 }
 
-class Lock1Tile implements Tile2 {
+class Lock1Tile implements Tile {
   colorGet(): string { return "#ffcc00"; }
   draw(g: CanvasRenderingContext2D, x: number, y: number) {
     g.fillStyle = this.colorGet();
@@ -222,7 +222,7 @@ class Lock1Tile implements Tile2 {
   isBoxy(): boolean { return false; }
 }
 
-class Key2Tile implements Tile2 {
+class Key2Tile implements Tile {
   colorGet(): string { return "#00ccff"; }
   draw(g: CanvasRenderingContext2D, x: number, y: number) {
     g.fillStyle = this.colorGet();
@@ -247,7 +247,7 @@ class Key2Tile implements Tile2 {
   isBoxy(): boolean { return false; }
 }
 
-class Lock2Tile implements Tile2 {
+class Lock2Tile implements Tile {
   colorGet(): string { return "#00ccff"; }
   draw(g: CanvasRenderingContext2D, x: number, y: number) {
     g.fillStyle = this.colorGet();
@@ -310,7 +310,7 @@ let rawMap: RawTile[][] = [
   [2, 2, 2, 2, 2, 2, 2, 2],
 ];
 
-let map: Tile2[][];
+let map: Tile[][];
 
 let inputs: Input[] = [];
 
@@ -469,4 +469,3 @@ window.addEventListener("keydown", e => {
   else if (e.key === RIGHT_KEY || e.key === "d") inputs.push(new Right());
   else if (e.key === DOWN_KEY || e.key === "s") inputs.push(new Down());
 });
-
