@@ -36,6 +36,9 @@ class Resting implements FallingState {
   }
 }
 
+
+class FallStrategy { }
+
 interface Tile {
   colorGet(): string;
   draw(g: CanvasRenderingContext2D, x: number, y: number): void;
@@ -116,8 +119,10 @@ class PlayerTile implements Tile {
 }
 
 class StoneTile implements Tile {
+  private fallStrategy: FallStrategy;
   constructor(private falling: FallingState) {
     this.falling = falling;
+    this.fallStrategy = new FallStrategy();
   }
   colorGet(): string { return "#0000cc"; }
   draw(g: CanvasRenderingContext2D, x: number, y: number) {
