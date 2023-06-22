@@ -148,8 +148,9 @@ class StoneTile implements Tile {
 }
 
 class BoxTile implements Tile {
-  constructor(private falling: FallingState) {
-    this.falling = falling;
+  private fallStrategy: FallStrategy;
+  constructor(falling: FallingState) {
+    this.fallStrategy = new FallStrategy(falling);
   }
   colorGet(): string { return "#8b4513"; }
   draw(g: CanvasRenderingContext2D, x: number, y: number) {
@@ -160,17 +161,11 @@ class BoxTile implements Tile {
   isLock1(): boolean { return false; }
   isLock2(): boolean { return false; }
   moveHorizontal(dx: number) {
-    this.falling.moveHorizontal(dx);
+    this.fallStrategy.getFalling().moveHorizontal(dx);
   }
   moveVertical(dy: number): void { }
   update(x: number, y: number) {
-    if (map[y + 1][x].isAir()) {
-      this.falling = new Falling();
-      map[y + 1][x] = this;
-      map[y][x] = new AirTile();
-    } else if (this.falling.isFalling()) {
-      this.falling = new Resting()
-    }
+    this.fallStrategy.update(this, x, y);
   }
 }
 
