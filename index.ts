@@ -432,9 +432,9 @@ function updateTile(x: number, y: number) {
     map[y + 1][x] = new BoxTile(new Falling());
     map[y][x] = new AirTile();
   } else if (map[y][x].isFallingStone()) {
-    map[y][x] = new StoneTile(new Resting());
+    map[y][x].rest();
   } else if (map[y][x].isFallingBox()) {
-    map[y][x] = new BoxTile(new Resting());
+    map[y][x].rest();
   }
 }
 
