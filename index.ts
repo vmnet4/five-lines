@@ -41,9 +41,7 @@ interface Tile {
   draw(g: CanvasRenderingContext2D, x: number, y: number): void;
   isAir(): boolean;
   isStone(): boolean;
-  isFallingStone(): boolean;
   isBox(): boolean;
-  isFallingBox(): boolean;
   isFalling(): boolean;
   isLock1(): boolean;
   isLock2(): boolean;
@@ -60,9 +58,7 @@ class AirTile implements Tile {
   draw(g: CanvasRenderingContext2D, x: number, y: number) { }
   isAir(): boolean { return true; }
   isStone(): boolean { return false; }
-  isFallingStone(): boolean { return false; }
   isBox(): boolean { return false; }
-  isFallingBox(): boolean { return false; }
   isFalling(): boolean { return false; }
   isLock1(): boolean { return false; }
   isLock2(): boolean { return false; }
@@ -86,9 +82,7 @@ class FluxTile implements Tile {
   }
   isAir(): boolean { return false; }
   isStone(): boolean { return false; }
-  isFallingStone(): boolean { return false; }
   isBox(): boolean { return false; }
-  isFallingBox(): boolean { return false; }
   isFalling(): boolean { return false; }
   isLock1(): boolean { return false; }
   isLock2(): boolean { return false; }
@@ -112,9 +106,7 @@ class UnbreakableTile implements Tile {
   }
   isAir(): boolean { return false; }
   isStone(): boolean { return false; }
-  isFallingStone(): boolean { return false; }
   isBox(): boolean { return false; }
-  isFallingBox(): boolean { return false; }
   isFalling(): boolean { return false; }
   isLock1(): boolean { return false; }
   isLock2(): boolean { return false; }
@@ -131,9 +123,7 @@ class PlayerTile implements Tile {
   draw(g: CanvasRenderingContext2D, x: number, y: number) { }
   isAir(): boolean { return false; }
   isStone(): boolean { return false; }
-  isFallingStone(): boolean { return false; }
   isBox(): boolean { return false; }
-  isFallingBox(): boolean { return false; }
   isFalling(): boolean { return false; }
   isLock1(): boolean { return false; }
   isLock2(): boolean { return false; }
@@ -156,9 +146,7 @@ class StoneTile implements Tile {
   }
   isAir(): boolean { return false; }
   isStone(): boolean { return true; }
-  isFallingStone(): boolean { return this.falling.isFalling(); }
   isBox(): boolean { return false; }
-  isFallingBox(): boolean { return false; }
   isFalling(): boolean { return this.falling.isFalling(); }
   isLock1(): boolean { return false; }
   isLock2(): boolean { return false; }
@@ -183,9 +171,7 @@ class BoxTile implements Tile {
   }
   isAir(): boolean { return false; }
   isStone(): boolean { return false; }
-  isFallingStone(): boolean { return false; }
   isBox(): boolean { return true; }
-  isFallingBox(): boolean { return this.falling.isFalling(); }
   isFalling(): boolean { return this.falling.isFalling(); }
   isLock1(): boolean { return false; }
   isLock2(): boolean { return false; }
@@ -207,9 +193,7 @@ class Key1Tile implements Tile {
   }
   isAir(): boolean { return false; }
   isStone(): boolean { return false; }
-  isFallingStone(): boolean { return false; }
   isBox(): boolean { return false; }
-  isFallingBox(): boolean { return false; }
   isFalling(): boolean { return false; }
   isLock1(): boolean { return false; }
   isLock2(): boolean { return false; }
@@ -235,9 +219,7 @@ class Lock1Tile implements Tile {
   }
   isAir(): boolean { return false; }
   isStone(): boolean { return false; }
-  isFallingStone(): boolean { return false; }
   isBox(): boolean { return false; }
-  isFallingBox(): boolean { return false; }
   isFalling(): boolean { return false; }
   isLock1(): boolean { return true; }
   isLock2(): boolean { return false; }
@@ -257,9 +239,7 @@ class Key2Tile implements Tile {
   }
   isAir(): boolean { return false; }
   isStone(): boolean { return false; }
-  isFallingStone(): boolean { return false; }
   isBox(): boolean { return false; }
-  isFallingBox(): boolean { return false; }
   isFalling(): boolean { return false; }
   isLock1(): boolean { return false; }
   isLock2(): boolean { return false; }
@@ -285,9 +265,7 @@ class Lock2Tile implements Tile {
   }
   isAir(): boolean { return false; }
   isStone(): boolean { return false; }
-  isFallingStone(): boolean { return false; }
   isBox(): boolean { return false; }
-  isFallingBox(): boolean { return false; }
   isFalling(): boolean { return false; }
   isLock1(): boolean { return false; }
   isLock2(): boolean { return true; }
