@@ -51,6 +51,7 @@ interface Tile {
   isBoxy(): boolean;
   drop(): void;
   rest(): void;
+  update(x: number, y: number): void;
 }
 
 class AirTile implements Tile {
@@ -72,6 +73,7 @@ class AirTile implements Tile {
   isBoxy(): boolean { return false; }
   drop() { }
   rest() { }
+  update(x: number, y: number) { }
 }
 
 class FluxTile implements Tile {
@@ -96,6 +98,7 @@ class FluxTile implements Tile {
   isBoxy(): boolean { return false; }
   drop() { }
   rest() { }
+  update(x: number, y: number) { }
 }
 
 class UnbreakableTile implements Tile {
@@ -116,6 +119,7 @@ class UnbreakableTile implements Tile {
   isBoxy(): boolean { return false; }
   drop() { }
   rest() { }
+  update(x: number, y: number) { }
 }
 
 class PlayerTile implements Tile {
@@ -133,6 +137,7 @@ class PlayerTile implements Tile {
   isBoxy(): boolean { return false; }
   drop() { }
   rest() { }
+  update(x: number, y: number) { }
 }
 
 class StoneTile implements Tile {
@@ -158,6 +163,15 @@ class StoneTile implements Tile {
   isBoxy(): boolean { return false; }
   drop() { this.falling = new Falling(); }
   rest() { this.falling = new Resting(); }
+  update(x: number, y: number) {
+    if (map[y + 1][x].isAir()) {
+      this.drop();
+      map[y + 1][x] = this;
+      map[y][x] = new AirTile();
+    } else if (this.isFalling()) {
+      map[y][x].rest();
+    }
+  }
 }
 
 class BoxTile implements Tile {
@@ -183,6 +197,15 @@ class BoxTile implements Tile {
   isBoxy(): boolean { return true; }
   drop() { this.falling = new Falling(); }
   rest() { this.falling = new Resting(); }
+  update(x: number, y: number) {
+    if (map[y + 1][x].isAir()) {
+      this.drop();
+      map[y + 1][x] = this;
+      map[y][x] = new AirTile();
+    } else if (this.isFalling()) {
+      map[y][x].rest();
+    }
+  }
 }
 
 class Key1Tile implements Tile {
@@ -209,6 +232,7 @@ class Key1Tile implements Tile {
   isBoxy(): boolean { return false; }
   drop() { }
   rest() { }
+  update(x: number, y: number) { }
 }
 
 class Lock1Tile implements Tile {
@@ -229,6 +253,7 @@ class Lock1Tile implements Tile {
   isBoxy(): boolean { return false; }
   drop() { }
   rest() { }
+  update(x: number, y: number) { }
 }
 
 class Key2Tile implements Tile {
@@ -255,6 +280,7 @@ class Key2Tile implements Tile {
   isBoxy(): boolean { return false; }
   drop() { }
   rest() { }
+  update(x: number, y: number) { }
 }
 
 class Lock2Tile implements Tile {
@@ -275,6 +301,7 @@ class Lock2Tile implements Tile {
   isBoxy(): boolean { return false; }
   drop() { }
   rest() { }
+  update(x: number, y: number) { }
 }
 
 
@@ -418,13 +445,7 @@ function canFall(tile: Tile) {
 }
 
 function updateTile(x: number, y: number) {
-  if (canFall(map[y][x]) && map[y + 1][x].isAir()) {
-    map[y][x].drop();
-    map[y + 1][x] = map[y][x];
-    map[y][x] = new AirTile();
-  } else if (map[y][x].isFalling()) {
-    map[y][x].rest();
-  }
+  map[y][x].update(x, y);
 }
 
 function draw() {
