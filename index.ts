@@ -50,6 +50,8 @@ interface Tile {
   moveVertical(dy: number): void;
   isStony(): boolean;
   isBoxy(): boolean;
+  drop(): void;
+  rest(): void;
 }
 
 class AirTile implements Tile {
@@ -70,6 +72,8 @@ class AirTile implements Tile {
   }
   isStony(): boolean { return false; }
   isBoxy(): boolean { return false; }
+  drop() { }
+  rest() { }
 }
 
 class FluxTile implements Tile {
@@ -93,6 +97,8 @@ class FluxTile implements Tile {
   }
   isStony(): boolean { return false; }
   isBoxy(): boolean { return false; }
+  drop() { }
+  rest() { }
 }
 
 class UnbreakableTile implements Tile {
@@ -112,6 +118,8 @@ class UnbreakableTile implements Tile {
   moveVertical(dy: number): void { }
   isStony(): boolean { return false; }
   isBoxy(): boolean { return false; }
+  drop() { }
+  rest() { }
 }
 
 class PlayerTile implements Tile {
@@ -128,6 +136,8 @@ class PlayerTile implements Tile {
   moveVertical(dy: number): void { }
   isStony(): boolean { return false; }
   isBoxy(): boolean { return false; }
+  drop() { }
+  rest() { }
 }
 
 class StoneTile implements Tile {
@@ -152,6 +162,8 @@ class StoneTile implements Tile {
   moveVertical(dy: number): void { }
   isStony(): boolean { return true; }
   isBoxy(): boolean { return false; }
+  drop() { this.falling = new Falling(); }
+  rest() { this.falling = new Resting(); }
 }
 
 class BoxTile implements Tile {
@@ -176,6 +188,8 @@ class BoxTile implements Tile {
   moveVertical(dy: number): void { }
   isStony(): boolean { return false; }
   isBoxy(): boolean { return true; }
+  drop() { this.falling = new Falling(); }
+  rest() { this.falling = new Resting(); }
 }
 
 class Key1Tile implements Tile {
@@ -201,6 +215,8 @@ class Key1Tile implements Tile {
   }
   isStony(): boolean { return false; }
   isBoxy(): boolean { return false; }
+  drop() { }
+  rest() { }
 }
 
 class Lock1Tile implements Tile {
@@ -220,6 +236,8 @@ class Lock1Tile implements Tile {
   moveVertical(dy: number): void { }
   isStony(): boolean { return false; }
   isBoxy(): boolean { return false; }
+  drop() { }
+  rest() { }
 }
 
 class Key2Tile implements Tile {
@@ -245,6 +263,8 @@ class Key2Tile implements Tile {
   }
   isStony(): boolean { return false; }
   isBoxy(): boolean { return false; }
+  drop() { }
+  rest() { }
 }
 
 class Lock2Tile implements Tile {
@@ -264,6 +284,8 @@ class Lock2Tile implements Tile {
   moveVertical(dy: number): void { }
   isStony(): boolean { return false; }
   isBoxy(): boolean { return false; }
+  drop() { }
+  rest() { }
 }
 
 
