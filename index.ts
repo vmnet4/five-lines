@@ -415,10 +415,12 @@ function updateBlocks() {
 
 function updateTile(x: number, y: number) {
   if (map[y][x].isStony() && map[y + 1][x].isAir()) {
-    map[y + 1][x] = new StoneTile(new Falling());
+    map[y][x].drop();
+    map[y + 1][x] = map[y][x];
     map[y][x] = new AirTile();
   } else if (map[y][x].isBoxy() && map[y + 1][x].isAir()) {
-    map[y + 1][x] = new BoxTile(new Falling());
+    map[y][x].drop();
+    map[y + 1][x] = map[y][x];
     map[y][x] = new AirTile();
   } else if (map[y][x].isFalling()) {
     map[y][x].rest();
