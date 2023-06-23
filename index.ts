@@ -270,14 +270,10 @@ let playerx = 1;
 let playery = 1;
 let rawMap: RawTile[][] = [
   [2, 2, 2, 2, 2, 2, 2, 2],
-  [2, 3, 0, 1, 1, 2, 0, 2],
+  [2, 3, 0, 1, 10, 2, 0, 2],
   [2, 4, 2, 6, 1, 2, 0, 2],
-  [2, 8, 4, 1, 1, 2, 0, 2],
+  [2, 8, 4, 11, 1, 2, 0, 2],
   [2, 4, 1, 1, 1, 9, 0, 2],
-  // [2, 1, 1, 1, 1, 2, 1, 2],
-  // [2, 1, 1, 1, 1, 2, 1, 2],
-  // [2, 1, 1, 1, 1, 2, 1, 2],
-  // [2, 1, 1, 1, 1, 2, 1, 2],
   [2, 2, 2, 2, 2, 2, 2, 2],
 ];
 
@@ -333,8 +329,7 @@ class RemoveLock2 implements RemoveStrategy {
   }
 }
 
-function removeLock1() {
-  let shouldRemove = new RemoveLock1();
+function remove(shouldRemove: RemoveStrategy) {
   for (let y = 0; y < map.length; y++) {
     for (let x = 0; x < map[y].length; x++) {
       if (shouldRemove.check(map[y][x])) {
@@ -344,15 +339,12 @@ function removeLock1() {
   }
 }
 
+function removeLock1() {
+  remove(new RemoveLock1());
+}
+
 function removeLock2() {
-  let shouldRemove = new RemoveLock2();
-  for (let y = 0; y < map.length; y++) {
-    for (let x = 0; x < map[y].length; x++) {
-      if (shouldRemove.check(map[y][x])) {
-        map[y][x] = new AirTile();
-      }
-    }
-  }
+  remove(new RemoveLock2());
 }
 
 function moveToTile(newx: number, newy: number) {
