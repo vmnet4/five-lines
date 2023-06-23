@@ -179,11 +179,11 @@ class Key1Tile implements Tile {
   isLock1(): boolean { return false; }
   isLock2(): boolean { return false; }
   moveHorizontal(dx: number) {
-    removeLock1();
+    remove(new RemoveLock1());
     moveToTile(playerx + dx, playery);
   }
   moveVertical(dy: number): void {
-    removeLock1();
+    remove(new RemoveLock1());
     moveToTile(playerx, playery + dy);
   }
   update(x: number, y: number) { }
@@ -213,11 +213,11 @@ class Key2Tile implements Tile {
   isLock1(): boolean { return false; }
   isLock2(): boolean { return false; }
   moveHorizontal(dx: number) {
-    removeLock2();
+    remove(new RemoveLock2());
     moveToTile(playerx + dx, playery);
   }
   moveVertical(dy: number): void {
-    removeLock2();
+    remove(new RemoveLock2());
     moveToTile(playerx, playery + dy);
   }
   update(x: number, y: number) { }
@@ -337,14 +337,6 @@ function remove(shouldRemove: RemoveStrategy) {
       }
     }
   }
-}
-
-function removeLock1() {
-  remove(new RemoveLock1());
-}
-
-function removeLock2() {
-  remove(new RemoveLock2());
 }
 
 function moveToTile(newx: number, newy: number) {
