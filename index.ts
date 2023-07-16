@@ -264,6 +264,34 @@ let map: Tile[][];
 
 let inputs: Input[] = [];
 
+
+
+interface RemoveStrategy {
+  check(tile: Tile): boolean;
+}
+
+class RemoveLock1 implements RemoveStrategy {
+  check(tile: Tile) {
+    return tile.isLock1();
+  }
+}
+
+class RemoveLock2 implements RemoveStrategy {
+  check(tile: Tile) {
+    return tile.isLock2();
+  }
+}
+
+function remove(shouldRemove: RemoveStrategy) {
+  for (let y = 0; y < map.length; y++) {
+    for (let x = 0; x < map[y].length; x++) {
+      if (shouldRemove.check(map[y][x])) {
+        map[y][x] = new AirTile();
+      }
+    }
+  }
+}
+
 function assertExhausted(x: never): never {
   throw new Error("Unexpected object: " + x);
 }
@@ -292,32 +320,6 @@ function createMapObjects(tiles: RawTile[][]) {
     map[y] = new Array(tiles[y].length);
     for (let x = 0; x < tiles[y].length; x++) {
       map[y][x] = createTileObject(tiles[y][x]);
-    }
-  }
-}
-
-interface RemoveStrategy {
-  check(tile: Tile): boolean;
-}
-
-class RemoveLock1 implements RemoveStrategy {
-  check(tile: Tile) {
-    return tile.isLock1();
-  }
-}
-
-class RemoveLock2 implements RemoveStrategy {
-  check(tile: Tile) {
-    return tile.isLock2();
-  }
-}
-
-function remove(shouldRemove: RemoveStrategy) {
-  for (let y = 0; y < map.length; y++) {
-    for (let x = 0; x < map[y].length; x++) {
-      if (shouldRemove.check(map[y][x])) {
-        map[y][x] = new AirTile();
-      }
     }
   }
 }
