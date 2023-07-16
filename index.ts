@@ -296,6 +296,9 @@ function assertExhausted(x: never): never {
   throw new Error("Unexpected object: " + x);
 }
 
+const YELLOW_KEY = new KeyConfiguration("#ffcc00", new RemoveLock1(), 1);
+const BLUE_KEY = new KeyConfiguration("#00ccff", new RemoveLock2(), 2);
+
 function createTileObject(tile: RawTile) {
   switch (tile) {
     case RawTile.AIR: return new AirTile();
@@ -306,10 +309,10 @@ function createTileObject(tile: RawTile) {
     case RawTile.FALLING_STONE: return new StoneTile(new Falling());
     case RawTile.BOX: return new BoxTile(new Resting());
     case RawTile.FALLING_BOX: return new BoxTile(new Falling());
-    case RawTile.KEY1: return new Key(new KeyConfiguration("#ffcc00", new RemoveLock1(), 1));
-    case RawTile.LOCK1: return new LockTile(new KeyConfiguration("#ffcc00", new RemoveLock1(), 1));
-    case RawTile.KEY2: return new Key(new KeyConfiguration("#00ccff", new RemoveLock2(), 2));
-    case RawTile.LOCK2: return new LockTile(new KeyConfiguration("#00ccff", new RemoveLock2(), 2));
+    case RawTile.KEY1: return new Key(YELLOW_KEY);
+    case RawTile.LOCK1: return new LockTile(YELLOW_KEY);
+    case RawTile.KEY2: return new Key(BLUE_KEY);
+    case RawTile.LOCK2: return new LockTile(BLUE_KEY);
     default: assertExhausted(tile);
   }
 }
