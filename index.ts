@@ -194,34 +194,23 @@ class Key implements Tile {
   update(x: number, y: number) { }
 }
 
-class Lock1Tile implements Tile {
-  colorGet(): string { return "#ffcc00"; }
+class LockTile implements Tile {
+  constructor(
+    private color: string,
+    private lockIdx: number,
+  ) { }
+  colorGet(): string { return this.color; }
   draw(g: CanvasRenderingContext2D, x: number, y: number) {
     g.fillStyle = this.colorGet();
     g.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
   }
   isAir(): boolean { return false; }
-  isLock1(): boolean { return true; }
-  isLock2(): boolean { return false; }
+  isLock1(): boolean { return this.lockIdx === 1; }
+  isLock2(): boolean { return this.lockIdx === 2; }
   moveHorizontal(dx: number) { }
   moveVertical(dy: number): void { }
   update(x: number, y: number) { }
 }
-
-class Lock2Tile implements Tile {
-  colorGet(): string { return "#00ccff"; }
-  draw(g: CanvasRenderingContext2D, x: number, y: number) {
-    g.fillStyle = this.colorGet();
-    g.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
-  }
-  isAir(): boolean { return false; }
-  isLock1(): boolean { return false; }
-  isLock2(): boolean { return true; }
-  moveHorizontal(dx: number) { }
-  moveVertical(dy: number): void { }
-  update(x: number, y: number) { }
-}
-
 
 interface Input {
   processInput(): void;
@@ -281,9 +270,9 @@ function createTileObject(tile: RawTile) {
     case RawTile.BOX: return new BoxTile(new Resting());
     case RawTile.FALLING_BOX: return new BoxTile(new Falling());
     case RawTile.KEY1: return new Key("#ffcc00", new RemoveLock1());
-    case RawTile.LOCK1: return new Lock1Tile();
+    case RawTile.LOCK1: return new LockTile("#ffcc00", 1);
     case RawTile.KEY2: return new Key("#00ccff", new RemoveLock2());
-    case RawTile.LOCK2: return new Lock2Tile();
+    case RawTile.LOCK2: return new LockTile("#00ccff", 2);
     default: assertExhausted(tile);
   }
 }
