@@ -169,8 +169,13 @@ class BoxTile implements Tile {
   }
 }
 
-class Key1Tile implements Tile {
-  colorGet(): string { return "#ffcc00"; }
+class Key implements Tile {
+  constructor(
+    private color: string,
+    private removeStrategy: RemoveStrategy
+  ) { }
+
+  colorGet(): string { return this.color; }
   draw(g: CanvasRenderingContext2D, x: number, y: number) {
     g.fillStyle = this.colorGet();
     g.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
@@ -179,11 +184,11 @@ class Key1Tile implements Tile {
   isLock1(): boolean { return false; }
   isLock2(): boolean { return false; }
   moveHorizontal(dx: number) {
-    remove(new RemoveLock1());
+    remove(this.removeStrategy);
     moveToTile(playerx + dx, playery);
   }
   moveVertical(dy: number): void {
-    remove(new RemoveLock1());
+    remove(this.removeStrategy);
     moveToTile(playerx, playery + dy);
   }
   update(x: number, y: number) { }
@@ -200,26 +205,6 @@ class Lock1Tile implements Tile {
   isLock2(): boolean { return false; }
   moveHorizontal(dx: number) { }
   moveVertical(dy: number): void { }
-  update(x: number, y: number) { }
-}
-
-class Key2Tile implements Tile {
-  colorGet(): string { return "#00ccff"; }
-  draw(g: CanvasRenderingContext2D, x: number, y: number) {
-    g.fillStyle = this.colorGet();
-    g.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
-  }
-  isAir(): boolean { return false; }
-  isLock1(): boolean { return false; }
-  isLock2(): boolean { return false; }
-  moveHorizontal(dx: number) {
-    remove(new RemoveLock2());
-    moveToTile(playerx + dx, playery);
-  }
-  moveVertical(dy: number): void {
-    remove(new RemoveLock2());
-    moveToTile(playerx, playery + dy);
-  }
   update(x: number, y: number) { }
 }
 
@@ -295,9 +280,9 @@ function createTileObject(tile: RawTile) {
     case RawTile.FALLING_STONE: return new StoneTile(new Falling());
     case RawTile.BOX: return new BoxTile(new Resting());
     case RawTile.FALLING_BOX: return new BoxTile(new Falling());
-    case RawTile.KEY1: return new Key1Tile();
+    case RawTile.KEY1: return new Key("#ffcc00", new RemoveLock1());
     case RawTile.LOCK1: return new Lock1Tile();
-    case RawTile.KEY2: return new Key2Tile();
+    case RawTile.KEY2: return new Key("#00ccff", new RemoveLock2());
     case RawTile.LOCK2: return new Lock2Tile();
     default: assertExhausted(tile);
   }
