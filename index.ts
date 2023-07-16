@@ -1,5 +1,5 @@
 
-const TILE_SIZE = 30;
+const TILE_SIZE = 40;
 const FPS = 60;
 const SLEEP = 1000 / FPS;
 
