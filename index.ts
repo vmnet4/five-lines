@@ -168,9 +168,11 @@ class KeyConfiguration {
     private removeStrategy: RemoveStrategy,
     private lockIndex: number,
   ) { }
-  getColor() { return this.color; }
   getLockIndex() { return this.lockIndex; }
   removeLock() { remove(this.removeStrategy); }
+  setColor(g: CanvasRenderingContext2D) {
+    g.fillStyle = this.color;
+  }
 }
 
 class Key implements Tile {
@@ -178,7 +180,7 @@ class Key implements Tile {
     private keyConfiguration: KeyConfiguration,
   ) { }
   draw(g: CanvasRenderingContext2D, x: number, y: number) {
-    g.fillStyle = this.keyConfiguration.getColor();
+    this.keyConfiguration.setColor(g);
     g.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
   }
   isAir(): boolean { return false; }
@@ -200,7 +202,7 @@ class LockTile implements Tile {
     private keyConfiguration: KeyConfiguration,
   ) { }
   draw(g: CanvasRenderingContext2D, x: number, y: number) {
-    g.fillStyle = this.keyConfiguration.getColor();
+    this.keyConfiguration.setColor(g);
     g.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
   }
   isAir(): boolean { return false; }
