@@ -176,8 +176,8 @@ class KeyConfiguration {
     private lockIndex: number,
   ) { }
   getColor() { return this.color; }
-  getRemoveStrategy() { return this.removeStrategy; }
   getLockIndex() { return this.lockIndex; }
+  removeLock() { remove(this.removeStrategy); }
 }
 
 class Key implements Tile {
@@ -194,11 +194,11 @@ class Key implements Tile {
   isLock1(): boolean { return false; }
   isLock2(): boolean { return false; }
   moveHorizontal(dx: number) {
-    remove(this.keyConfiguration.getRemoveStrategy());
+    this.keyConfiguration.removeLock();
     moveToTile(playerx + dx, playery);
   }
   moveVertical(dy: number): void {
-    remove(this.keyConfiguration.getRemoveStrategy());
+    this.keyConfiguration.removeLock();
     moveToTile(playerx, playery + dy);
   }
   update(x: number, y: number) { }
