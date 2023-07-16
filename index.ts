@@ -172,17 +172,16 @@ class BoxTile implements Tile {
 class KeyConfiguration {
   constructor(
     private color: string,
-    // private removeStrategy: RemoveStrategy,
+    private removeStrategy: RemoveStrategy,
     // private lockIndex: number,
   ) { }
   getColor() { return this.color; }
-  // getRemoveStrategy() { return this.removeStrategy; }
+  getRemoveStrategy() { return this.removeStrategy; }
   // getLockIndex() { return this.lockIndex; }
 }
 
 class Key implements Tile {
   constructor(
-    private removeStrategy: RemoveStrategy,
     private keyConfiguration: KeyConfiguration,
   ) { }
 
@@ -195,11 +194,11 @@ class Key implements Tile {
   isLock1(): boolean { return false; }
   isLock2(): boolean { return false; }
   moveHorizontal(dx: number) {
-    remove(this.removeStrategy);
+    remove(this.keyConfiguration.getRemoveStrategy());
     moveToTile(playerx + dx, playery);
   }
   moveVertical(dy: number): void {
-    remove(this.removeStrategy);
+    remove(this.keyConfiguration.getRemoveStrategy());
     moveToTile(playerx, playery + dy);
   }
   update(x: number, y: number) { }
@@ -280,10 +279,10 @@ function createTileObject(tile: RawTile) {
     case RawTile.FALLING_STONE: return new StoneTile(new Falling());
     case RawTile.BOX: return new BoxTile(new Resting());
     case RawTile.FALLING_BOX: return new BoxTile(new Falling());
-    case RawTile.KEY1: return new Key(new RemoveLock1(), new KeyConfiguration("#ffcc00"));
-    case RawTile.LOCK1: return new LockTile(1, new KeyConfiguration("#ffcc00"));
-    case RawTile.KEY2: return new Key(new RemoveLock2(), new KeyConfiguration("#00ccff"));
-    case RawTile.LOCK2: return new LockTile(2, new KeyConfiguration("#00ccff"));
+    case RawTile.KEY1: return new Key(new KeyConfiguration("#ffcc00", new RemoveLock1()));
+    case RawTile.LOCK1: return new LockTile(1, new KeyConfiguration("#ffcc00", new RemoveLock1()));
+    case RawTile.KEY2: return new Key(new KeyConfiguration("#00ccff", new RemoveLock2()));
+    case RawTile.LOCK2: return new LockTile(2, new KeyConfiguration("#00ccff", new RemoveLock2()));
     default: assertExhausted(tile);
   }
 }
