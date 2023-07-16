@@ -162,6 +162,18 @@ class BoxTile implements Tile {
   }
 }
 
+class CellRenderingContext {
+  constructor(
+    private g: CanvasRenderingContext2D,
+    private posX: number,
+    private posY: number,
+  ) { }
+  draw(color: string) {
+    this.g.fillStyle = color;
+    this.g.fillRect(this.posX * TILE_SIZE, this.posY * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+  }
+}
+
 class KeyConfiguration {
   constructor(
     private color: string,
@@ -170,8 +182,8 @@ class KeyConfiguration {
   ) { }
   getLockIndex() { return this.lockIndex; }
   removeLock() { remove(this.removeStrategy); }
-  setColor(g: CanvasRenderingContext2D) {
-    g.fillStyle = this.color;
+  fillRect(cellRdrCtx: CellRenderingContext) {
+    cellRdrCtx.draw(this.color);
   }
 }
 
@@ -180,8 +192,8 @@ class Key implements Tile {
     private keyConfiguration: KeyConfiguration,
   ) { }
   draw(g: CanvasRenderingContext2D, x: number, y: number) {
-    this.keyConfiguration.setColor(g);
-    g.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+    let cellRenderingCtx = new CellRenderingContext(g, x, y);
+    this.keyConfiguration.fillRect(cellRenderingCtx);
   }
   isAir(): boolean { return false; }
   isLock1(): boolean { return false; }
@@ -202,8 +214,8 @@ class LockTile implements Tile {
     private keyConfiguration: KeyConfiguration,
   ) { }
   draw(g: CanvasRenderingContext2D, x: number, y: number) {
-    this.keyConfiguration.setColor(g);
-    g.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+    let cellRenderingCtx = new CellRenderingContext(g, x, y);
+    this.keyConfiguration.fillRect(cellRenderingCtx);
   }
   isAir(): boolean { return false; }
   isLock1(): boolean { return this.keyConfiguration.getLockIndex() === 1; }
