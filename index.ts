@@ -42,7 +42,7 @@ class FallStrategy {
     this.falling = falling;
   }
   update(tile: Tile, x: number, y: number) {
-    this.falling = (map[y + 1][x].isAir()) ? new Falling() : new Resting();
+    this.falling = map[y + 1][x].getBlockOnTopState();
     this.drop(tile, x, y);
 
   }
@@ -63,6 +63,7 @@ interface Tile {
   moveHorizontal(dx: number): void;
   moveVertical(dy: number): void;
   update(x: number, y: number): void;
+  getBlockOnTopState(): FallingState;
 }
 
 class AirTile implements Tile {
@@ -77,6 +78,7 @@ class AirTile implements Tile {
     moveToTile(playerx, playery + dy);
   }
   update(x: number, y: number) { }
+  getBlockOnTopState(): FallingState { return new Falling(); }
 }
 
 class FluxTile implements Tile {
@@ -94,6 +96,7 @@ class FluxTile implements Tile {
     moveToTile(playerx, playery + dy);
   }
   update(x: number, y: number) { }
+  getBlockOnTopState(): FallingState { return new Resting(); }
 }
 
 class UnbreakableTile implements Tile {
@@ -107,6 +110,7 @@ class UnbreakableTile implements Tile {
   moveHorizontal(dx: number) { }
   moveVertical(dy: number): void { }
   update(x: number, y: number) { }
+  getBlockOnTopState(): FallingState { return new Resting(); }
 }
 
 class PlayerTile implements Tile {
@@ -117,6 +121,7 @@ class PlayerTile implements Tile {
   moveHorizontal(dx: number) { }
   moveVertical(dy: number): void { }
   update(x: number, y: number) { }
+  getBlockOnTopState(): FallingState { return new Resting(); }
 }
 
 class StoneTile implements Tile {
@@ -138,6 +143,7 @@ class StoneTile implements Tile {
   update(x: number, y: number) {
     this.fallStrategy.update(this, x, y);
   }
+  getBlockOnTopState(): FallingState { return new Resting(); }
 }
 
 class BoxTile implements Tile {
@@ -159,6 +165,7 @@ class BoxTile implements Tile {
   update(x: number, y: number) {
     this.fallStrategy.update(this, x, y);
   }
+  getBlockOnTopState(): FallingState { return new Resting(); }
 }
 
 class CellRenderingContext {
@@ -206,6 +213,7 @@ class Key implements Tile {
     moveToTile(playerx, playery + dy);
   }
   update(x: number, y: number) { }
+  getBlockOnTopState(): FallingState { return new Resting(); }
 }
 
 class LockTile implements Tile {
@@ -222,6 +230,7 @@ class LockTile implements Tile {
   moveHorizontal(dx: number) { }
   moveVertical(dy: number): void { }
   update(x: number, y: number) { }
+  getBlockOnTopState(): FallingState { return new Resting(); }
 }
 
 interface Input {
