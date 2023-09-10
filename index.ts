@@ -52,8 +52,7 @@ class FallStrategy {
       map[y][x] = new AirTile();
     }
   }
-
-  getFalling(): FallingState { return this.falling; }
+  moveHorizontal(dx: number): void { this.falling.moveHorizontal(dx); }
 }
 
 interface Tile {
@@ -133,7 +132,7 @@ class StoneTile implements Tile {
   isLock1(): boolean { return false; }
   isLock2(): boolean { return false; }
   moveHorizontal(dx: number) {
-    this.fallStrategy.getFalling().moveHorizontal(dx);
+    this.fallStrategy.moveHorizontal(dx);
   }
   moveVertical(dy: number): void { }
   update(x: number, y: number) {
@@ -154,7 +153,7 @@ class BoxTile implements Tile {
   isLock1(): boolean { return false; }
   isLock2(): boolean { return false; }
   moveHorizontal(dx: number) {
-    this.fallStrategy.getFalling().moveHorizontal(dx);
+    this.fallStrategy.moveHorizontal(dx);
   }
   moveVertical(dy: number): void { }
   update(x: number, y: number) {
