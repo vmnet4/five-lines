@@ -63,8 +63,8 @@ interface Tile {
   isAir(): boolean;
   isLock1(): boolean;
   isLock2(): boolean;
-  moveHorizontal(dx: number): void;
-  moveVertical(dy: number): void;
+  moveHorizontal(player: Player, dx: number): void;
+  moveVertical(player: Player, dy: number): void;
   update(x: number, y: number): void;
   getBlockOnTopState(): FallingState;
 }
@@ -74,10 +74,10 @@ class AirTile implements Tile {
   isAir(): boolean { return true; }
   isLock1(): boolean { return false; }
   isLock2(): boolean { return false; }
-  moveHorizontal(dx: number) {
+  moveHorizontal(player: Player, dx: number) {
     moveToTile(player.getX() + dx, player.getY());
   }
-  moveVertical(dy: number): void {
+  moveVertical(player: Player, dy: number): void {
     moveToTile(player.getX(), player.getY() + dy);
   }
   update(x: number, y: number) { }
@@ -92,10 +92,10 @@ class FluxTile implements Tile {
   isAir(): boolean { return false; }
   isLock1(): boolean { return false; }
   isLock2(): boolean { return false; }
-  moveHorizontal(dx: number) {
+  moveHorizontal(player: Player, dx: number) {
     moveToTile(player.getX() + dx, player.getY());
   }
-  moveVertical(dy: number): void {
+  moveVertical(player: Player, dy: number): void {
     moveToTile(player.getX(), player.getY() + dy);
   }
   update(x: number, y: number) { }
@@ -110,8 +110,8 @@ class UnbreakableTile implements Tile {
   isAir(): boolean { return false; }
   isLock1(): boolean { return false; }
   isLock2(): boolean { return false; }
-  moveHorizontal(dx: number) { }
-  moveVertical(dy: number): void { }
+  moveHorizontal(player: Player, dx: number) { }
+  moveVertical(player: Player, dy: number): void { }
   update(x: number, y: number) { }
   getBlockOnTopState(): FallingState { return new Resting(); }
 }
@@ -121,8 +121,8 @@ class PlayerTile implements Tile {
   isAir(): boolean { return false; }
   isLock1(): boolean { return false; }
   isLock2(): boolean { return false; }
-  moveHorizontal(dx: number) { }
-  moveVertical(dy: number): void { }
+  moveHorizontal(player: Player, dx: number) { }
+  moveVertical(player: Player, dy: number): void { }
   update(x: number, y: number) { }
   getBlockOnTopState(): FallingState { return new Resting(); }
 }
@@ -139,10 +139,10 @@ class StoneTile implements Tile {
   isAir(): boolean { return false; }
   isLock1(): boolean { return false; }
   isLock2(): boolean { return false; }
-  moveHorizontal(dx: number) {
+  moveHorizontal(player: Player, dx: number) {
     this.fallStrategy.moveHorizontal(dx);
   }
-  moveVertical(dy: number): void { }
+  moveVertical(player: Player, dy: number): void { }
   update(x: number, y: number) {
     this.fallStrategy.update(this, x, y);
   }
@@ -161,10 +161,10 @@ class BoxTile implements Tile {
   isAir(): boolean { return false; }
   isLock1(): boolean { return false; }
   isLock2(): boolean { return false; }
-  moveHorizontal(dx: number) {
+  moveHorizontal(player: Player, dx: number) {
     this.fallStrategy.moveHorizontal(dx);
   }
-  moveVertical(dy: number): void { }
+  moveVertical(player: Player, dy: number): void { }
   update(x: number, y: number) {
     this.fallStrategy.update(this, x, y);
   }
@@ -207,11 +207,11 @@ class Key implements Tile {
   isAir(): boolean { return false; }
   isLock1(): boolean { return false; }
   isLock2(): boolean { return false; }
-  moveHorizontal(dx: number) {
+  moveHorizontal(player: Player, dx: number) {
     this.keyConfiguration.removeLock();
     moveToTile(player.getX() + dx, player.getY());
   }
-  moveVertical(dy: number): void {
+  moveVertical(player: Player, dy: number): void {
     this.keyConfiguration.removeLock();
     moveToTile(player.getX(), player.getY() + dy);
   }
@@ -230,8 +230,8 @@ class LockTile implements Tile {
   isAir(): boolean { return false; }
   isLock1(): boolean { return this.keyConfiguration.getLockIndex() === 1; }
   isLock2(): boolean { return this.keyConfiguration.getLockIndex() === 2; }
-  moveHorizontal(dx: number) { }
-  moveVertical(dy: number): void { }
+  moveHorizontal(player: Player, dx: number) { }
+  moveVertical(player: Player, dy: number): void { }
   update(x: number, y: number) { }
   getBlockOnTopState(): FallingState { return new Resting(); }
 }
@@ -359,11 +359,11 @@ function moveToTile(newx: number, newy: number) {
 }
 
 function moveHorizontal(dx: number) {
-  map[player.getY()][player.getX() + dx].moveHorizontal(dx);
+  map[player.getY()][player.getX() + dx].moveHorizontal(player, dx);
 }
 
 function moveVertical(dy: number) {
-  map[player.getY() + dy][player.getX()].moveVertical(dy);
+  map[player.getY() + dy][player.getX()].moveVertical(player, dy);
 }
 
 function update() {
